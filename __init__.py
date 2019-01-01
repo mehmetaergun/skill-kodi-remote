@@ -11,6 +11,9 @@ class SkillKodiRemote(MycroftSkill):
         # Initialize working variables used within the skill.
         self.on_websettings_changed_count = 0
         self.kodi = None
+        self.json_header = {'content-type': 'application/json'}
+        self.json_payload = ""
+        self.json_response = ""
         
     
     def initialize(self):
@@ -32,24 +35,27 @@ class SkillKodiRemote(MycroftSkill):
     # The "handle_xxxx_intent" function is triggered skill's intent is matched.
     # triggered when the user's utterance matches the pattern defined by the keywords
     # the match occurs when one word is found from each of the files:
-    #    vocab/en-us/XXX.voc
-    #    vocab/en-us/YYY.voc
-    #    vocab/en-us/ZZZ.voc
-    @intent_handler(IntentBuilder("").require("XXX").require("YYY").optional('ZZZ'))
-    def handle_hello_world_intent(self, message):
+    #    vocab/en-us/Pause.voc
+    #    vocab/en-us/Kodi.voc
+    @intent_handler(IntentBuilder("").require("Pause").require("Kodi"))
+    def handle_pause_kodi_intent(self, message):
         # Mycroft to respond by simply speaking a canned response randomly from
         #    dialogs/en-us/abcde.gfde.dialog
-        self.speak_dialog("abcde.gfde")
+        # self.speak_dialog("abcde.gfde")
+        pass
 
 
-    # The "stop" method defines what Mycroft does when told to stop during skill's execution
-    # the skill's execution. In this case, since the skill's functionality
-    # If you DO need to implement stop, you should return True to indicate you handled it.
-    # def stop(self):
-    #    return False
+    @intent_handler(IntentBuilder("").require("Resume").require("Kodi"))
+    def handle_resume_kodi_intent(self, message):
+        pass
+
+
+    @intent_handler(IntentBuilder("").optional("Set").require("Volume").require("Kodi"))
+    def handle_volume_kodi_intent(self, message):
+        pass
 
 
 # The "create_skill()" method is outside the class itself.
 def create_skill():
-    return TemplateSkill()
+    return SkillKodiRemote()
 
