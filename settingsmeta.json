@@ -16,20 +16,7 @@
                         "type": "number",
                         "label": "Kodi Port Number",
                         "value": "8080"
-                    },
-                    {
-                        "name": "uname",
-                        "type": "text",
-                        "label": "User Name for your device",
-                        "value": ""
-                    },
-                    {
-                        "name": "passwd",
-                        "type": "password",
-                        "label": "Password for your device",
-                        "value": ""
                     }
-
                 ]
             }
         ]
