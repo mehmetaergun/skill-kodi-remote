@@ -73,10 +73,21 @@ class SkillKodiRemote(MycroftSkill):
         LOG.info('Stopped Kodi')
 
 
-    @intent_handler(IntentBuilder("").optional("Set").require("Volume").require("Kodi"))
+    @intent_handler(IntentBuilder("").optional("Set").require("Volume").require("VolumeLevels").require("Kodi"))
     def handle_volume_kodi_intent(self, message):
-        LOG.info('Setting Kodi volume')
-        pass
+        LOG.info('Setting Kodi volume level')
+        level = message.data.get('VolumeLevels', None)
+        LOG.info('Requested Kodi volume level: %r' % level)
+        try:
+            level = int(level) * 10 # e.g. 7 -> 70 for Kodi's own volume settings
+            assert 0 <= level <= 100, "volume level not between 0 and 100: %r" % level
+            kodi_post(
+                self.kodi, 
+                {"jsonrpc": "2.0", "method": "Application.SetVolume", "params": { "volume": level }, "id": 1}
+            )
+            LOG.info('Set Kodi volume level completed, level set to: %r' % level)
+        except Exception as e:
+            LOG.error('Error in Kodi volume setting: %r' % e)
 
 
 # The "create_skill()" method is outside the class itself.
