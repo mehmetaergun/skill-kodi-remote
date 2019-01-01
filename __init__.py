@@ -15,15 +15,15 @@ def kodi_post(kodi_url, jsonrpc_payload, json_header={'content-type': 'applicati
     jsonrpc_payload: full json request to send
     Returns the response as is
     """
-    assert isinstance(jsonrpc_payload, dict), "jsonrpc_payload is not a dict: %r" % jsonrpc_payload
-    assert isinstance(kodi_url, str), "kodi_url is not a string: %r" % kodi_url
+    assert isinstance(jsonrpc_payload, dict), 'jsonrpc_payload is not a dict: %r' % jsonrpc_payload
+    assert isinstance(kodi_url, str), 'kodi_url is not a string: %r' % kodi_url
     try:
-        LOG.debug('Sending request to Kodi: ' + repr(jsonrpc_payload))
+        LOG.debug('Sending request to Kodi: %r' % jsonrpc_payload)
         response = requests.post(kodi_url, data=json.dumps(jsonrpc_payload), headers=json_header)
-        LOG.debug('Kodi responded with : ' + response.text)
+        LOG.debug('Kodi responded with: %r' % response.text)
         return response
     except Exception as e:
-        LOG.error('Kodi request/response error with ' + e)
+        LOG.error('Kodi request/response error with: %r' % e)
 
 
 class SkillKodiRemote(MycroftSkill):
@@ -35,8 +35,8 @@ class SkillKodiRemote(MycroftSkill):
         # Initialize working variables used within the skill.
         self.on_websettings_changed_count = 0
         self.kodi = None
-        self.json_payload = ""
-        self.json_response = ""
+        self.json_payload = ''
+        self.json_response = ''
         
     
     def initialize(self):
@@ -45,12 +45,12 @@ class SkillKodiRemote(MycroftSkill):
     
     def on_websettings_changed(self):
         self.on_websettings_changed_count += 1
-        LOG.info('on_websettings_changed was activated' + str(self.on_websettings_changed_count) + 'th time')
+        LOG.info('on_websettings_changed was activated for the ' + str(self.on_websettings_changed_count) + 'th time')
         # get the new settings
         ip, port = self.settings.get('ip'), self.settings.get('port')
         # construct kodi's url
         self.kodi = "http://" + ip + ":" + port + "/jsonrpc"
-        LOG.info('Kodi at " + self.kodi)
+        LOG.info('Kodi at %r' % self.kodi)
     
 
     @intent_handler(IntentBuilder("").require("PauseResume").require("Kodi"))
