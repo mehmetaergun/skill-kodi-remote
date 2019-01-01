@@ -10,6 +10,7 @@ def kodi_post(kodi_url, jsonrpc_payload, json_header={'content-type': 'applicati
     """
     Post a request to Kodi jsonrpc
     For more information, https://kodi.wiki/view/JSON-RPC_API/
+    or http://ip:port/jsonrpc?request={"jsonrpc": "2.0", "id": 1, "method": "JSONRPC.Introspect", "params": {"getdescriptions" : true, "getmetadata": true}}
     jsonrpc_payload: full json request to send
     Returns the response as is
     """
