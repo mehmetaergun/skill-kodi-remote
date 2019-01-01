@@ -1,66 +1,55 @@
-# TODO: Add an appropriate license to your skill before publishing.  See
-# the LICENSE file for more information.
-
-# Below is the list of outside modules you'll be using in your skill.
-# They might be built-in to Python, from mycroft-core or from external
-# libraries.  If you use an external library, be sure to include it
-# in the requirements.txt file so the library is installed properly
-# when the skill gets installed later by a user.
-
 from adapt.intent import IntentBuilder
 from mycroft.skills.core import MycroftSkill, intent_handler
 from mycroft.util.log import LOG
 
-# Each skill is contained within its own class, which inherits base methods
-# from the MycroftSkill class.  You extend this class as shown below.
-
-# TODO: Change "Template" to a unique name for your skill
-class TemplateSkill(MycroftSkill):
+class SkillKodiRemote(MycroftSkill):
 
     # The constructor of the skill, which calls MycroftSkill's constructor
     def __init__(self):
-        super(TemplateSkill, self).__init__(name="TemplateSkill")
-        
+        # default init line
+        super(SkillKodiRemote, self).__init__(name="SkillKodiRemote")
         # Initialize working variables used within the skill.
-        self.count = 0
+        self.on_websettings_changed_count = 0
+        self.kodi = None
+        
+    
+    def initialize(self):
+        self.settings.set_changed_callback(self.on_websettings_changed)
+    
+    
+    def on_websettings_changed(self):
+        self.on_websettings_changed_count += 1
+        LOG.info('on_websettings_changed was activated' + str(self.on_websettings_changed_count) + 'th time')
+        # get the new settings
+        (ip, port, uname, passwd) = (self.settings.get('ip')
+                                     , self.settings.get('port')
+                                     , self.settings.get('uname')
+                                     , self.settings.get('passwd')
+        # construct kodi's url
+        self.kodi = "http://" + uname + ":" + passwd + "@" + ip + ":" + port + "/jsonrpc"
+    
 
-    # The "handle_xxxx_intent" function is triggered by Mycroft when the
-    # skill's intent is matched.  The intent is defined by the IntentBuilder()
-    # pieces, and is triggered when the user's utterance matches the pattern
-    # defined by the keywords.  In this case, the match occurs when one word
-    # is found from each of the files:
-    #    vocab/en-us/Hello.voc
-    #    vocab/en-us/World.voc
-    # In this example that means it would match on utterances like:
-    #   'Hello world'
-    #   'Howdy you great big world'
-    #   'Greetings planet earth'
-    @intent_handler(IntentBuilder("").require("Hello").require("World"))
+    # The "handle_xxxx_intent" function is triggered skill's intent is matched.
+    # triggered when the user's utterance matches the pattern defined by the keywords
+    # the match occurs when one word is found from each of the files:
+    #    vocab/en-us/XXX.voc
+    #    vocab/en-us/YYY.voc
+    #    vocab/en-us/ZZZ.voc
+    @intent_handler(IntentBuilder("").require("XXX").require("YYY").optional('ZZZ'))
     def handle_hello_world_intent(self, message):
-        # In this case, respond by simply speaking a canned response.
-        # Mycroft will randomly speak one of the lines from the file
-        #    dialogs/en-us/hello.world.dialog
-        self.speak_dialog("hello.world")
+        # Mycroft to respond by simply speaking a canned response randomly from
+        #    dialogs/en-us/abcde.gfde.dialog
+        self.speak_dialog("abcde.gfde")
 
-    @intent_handler(IntentBuilder("").require("Count").require("Dir"))
-    def handle_count_intent(self, message):
-        if message.data["Dir"] == "up":
-            self.count += 1
-        else:  # assume "down"
-            self.count -= 1
-        self.speak_dialog("count.is.now", data={"count": self.count})
 
-    # The "stop" method defines what Mycroft does when told to stop during
+    # The "stop" method defines what Mycroft does when told to stop during skill's execution
     # the skill's execution. In this case, since the skill's functionality
-    # is extremely simple, there is no need to override it.  If you DO
-    # need to implement stop, you should return True to indicate you handled
-    # it.
-    #
+    # If you DO need to implement stop, you should return True to indicate you handled it.
     # def stop(self):
     #    return False
 
-# The "create_skill()" method is used to create an instance of the skill.
-# Note that it's outside the class itself.
+
+# The "create_skill()" method is outside the class itself.
 def create_skill():
     return TemplateSkill()
 
