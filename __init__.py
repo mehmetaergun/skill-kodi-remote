@@ -64,9 +64,12 @@ class SkillKodiRemote(MycroftSkill):
 
     @intent_handler(IntentBuilder("").require("Stop").require("Kodi"))
     def handle_resume_kodi_intent(self, message):
-        """Should pass equivalent of 'x' to Kodi"""
         LOG.info('Stopping Kodi')
-        pass
+        kodi_post(
+            self.kodi, 
+            {"jsonrpc": "2.0", "method": "Player.Stop", "params": { "playerid": 1 }, "id": 1}
+        )
+        LOG.info('Stopped Kodi')
 
 
     @intent_handler(IntentBuilder("").optional("Set").require("Volume").require("Kodi"))
