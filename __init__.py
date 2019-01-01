@@ -62,6 +62,7 @@ class SkillKodiRemote(MycroftSkill):
         )
         LOG.info('Paused/Resumed Kodi')
 
+    
     @intent_handler(IntentBuilder("").require("Stop").require("Kodi"))
     def handle_resume_kodi_intent(self, message):
         LOG.info('Stopping Kodi')
