@@ -16,8 +16,9 @@ def kodi_post(kodi_url, jsonrpc_payload, json_header={'content-type': 'applicati
     assert isinstance(jsonrpc_payload, dict), "jsonrpc_payload is not a dict: %r" % jsonrpc_payload
     assert isinstance(kodi_url, str), "kodi_url is not a string: %r" % kodi_url
     try:
+        LOG.debug('Sending request to Kodi: ' + repr(jsonrpc_payload))
         response = requests.post(kodi_url, data=json.dumps(jsonrpc_payload), headers=json_header)
-        LOG.info('Kodi responded with :' + response.text)
+        LOG.debug('Kodi responded with : ' + response.text)
         return response
     except Exception as e:
         LOG.error('Kodi request/response error with ' + e)
