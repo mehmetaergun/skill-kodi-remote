@@ -53,19 +53,14 @@ class SkillKodiRemote(MycroftSkill):
         LOG.info('Kodi at " + self.kodi)
     
 
-    # The "handle_xxxx_intent" function is triggered skill's intent is matched.
-    # triggered when the user's utterance matches the pattern defined by the keywords
-    # eg vocab/en-us/Kodi.voc
-    @intent_handler(IntentBuilder("").require("Pause").require("Kodi"))
+    @intent_handler(IntentBuilder("").require("PauseResume").require("Kodi"))
     def handle_pause_kodi_intent(self, message):
-        LOG.info('Pausing Kodi')
-        pass
-
-    @intent_handler(IntentBuilder("").require("Resume").require("Kodi"))
-    def handle_resume_kodi_intent(self, message):
-        LOG.info('Resuming Kodi')
-        pass
-
+        LOG.info('Pausing/Resuming Kodi')
+        kodi_post(
+            self.kodi, 
+            {"jsonrpc": "2.0", "method": "Player.PlayPause", "params": { "playerid": 1 }, "id": 1}
+        )
+        LOG.info('Paused/Resumed Kodi')
 
     @intent_handler(IntentBuilder("").require("Stop").require("Kodi"))
     def handle_resume_kodi_intent(self, message):
