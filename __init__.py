@@ -24,12 +24,9 @@ class SkillKodiRemote(MycroftSkill):
         self.on_websettings_changed_count += 1
         LOG.info('on_websettings_changed was activated' + str(self.on_websettings_changed_count) + 'th time')
         # get the new settings
-        (ip, port, uname, passwd) = (self.settings.get('ip')
-                                     , self.settings.get('port')
-                                     , self.settings.get('uname')
-                                     , self.settings.get('passwd')
+        ip, port = self.settings.get('ip'), self.settings.get('port')
         # construct kodi's url
-        self.kodi = "http://" + uname + ":" + passwd + "@" + ip + ":" + port + "/jsonrpc"
+        self.kodi = "http://" + ip + ":" + port + "/jsonrpc"
         LOG.info('Kodi at " + self.kodi)
     
 
