@@ -34,30 +34,28 @@ class SkillKodiRemote(MycroftSkill):
 
     # The "handle_xxxx_intent" function is triggered skill's intent is matched.
     # triggered when the user's utterance matches the pattern defined by the keywords
-    # the match occurs when one word is found from each of the files:
-    #    vocab/en-us/Pause.voc
-    #    vocab/en-us/Kodi.voc
+    # eg vocab/en-us/Kodi.voc
     @intent_handler(IntentBuilder("").require("Pause").require("Kodi"))
     def handle_pause_kodi_intent(self, message):
-        # Mycroft to respond by simply speaking a canned response randomly from
-        #    dialogs/en-us/abcde.gfde.dialog
-        # self.speak_dialog("abcde.gfde")
+        LOG.info('Pausing Kodi')
         pass
-
 
     @intent_handler(IntentBuilder("").require("Resume").require("Kodi"))
     def handle_resume_kodi_intent(self, message):
+        LOG.info('Resuming Kodi')
         pass
 
 
     @intent_handler(IntentBuilder("").require("Stop").require("Kodi"))
     def handle_resume_kodi_intent(self, message):
         """Should pass equivalent of 'x' to Kodi"""
+        LOG.info('Stopping Kodi')
         pass
 
 
     @intent_handler(IntentBuilder("").optional("Set").require("Volume").require("Kodi"))
     def handle_volume_kodi_intent(self, message):
+        LOG.info('Setting Kodi volume')
         pass
 
 
