@@ -1,6 +1,27 @@
+import requests
+import json
+
 from adapt.intent import IntentBuilder
 from mycroft.skills.core import MycroftSkill, intent_handler
 from mycroft.util.log import LOG
+
+
+def kodi_post(kodi_url, jsonrpc_payload, json_header={'content-type': 'application/json'}):
+    """
+    Post a request to Kodi jsonrpc
+    For more information, https://kodi.wiki/view/JSON-RPC_API/
+    jsonrpc_payload: full json request to send
+    Returns the response as is
+    """
+    assert isinstance(jsonrpc_payload, dict), "jsonrpc_payload is not a dict: %r" % jsonrpc_payload
+    assert isinstance(kodi_url, str), "kodi_url is not a string: %r" % kodi_url
+    try:
+        response = requests.post(kodi_url, data=json.dumps(jsonrpc_payload), headers=json_header)
+        LOG.info('Kodi responded with :' + response.text)
+        return response
+    except Exception as e:
+        LOG.error('Kodi request/response error with ' + e)
+
 
 class SkillKodiRemote(MycroftSkill):
 
@@ -11,7 +32,6 @@ class SkillKodiRemote(MycroftSkill):
         # Initialize working variables used within the skill.
         self.on_websettings_changed_count = 0
         self.kodi = None
-        self.json_header = {'content-type': 'application/json'}
         self.json_payload = ""
         self.json_response = ""
         
