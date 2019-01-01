@@ -30,6 +30,7 @@ class SkillKodiRemote(MycroftSkill):
                                      , self.settings.get('passwd')
         # construct kodi's url
         self.kodi = "http://" + uname + ":" + passwd + "@" + ip + ":" + port + "/jsonrpc"
+        LOG.info('Kodi at " + self.kodi)
     
 
     # The "handle_xxxx_intent" function is triggered skill's intent is matched.
