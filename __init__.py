@@ -46,7 +46,7 @@ class SkillKodiRemote(MycroftSkill):
         # get the new settings
         ip, port = self.settings.get('ip'), self.settings.get('port')
         # construct kodi's url
-        self.kodi = "http://" + ip + ":" + port + "/jsonrpc"
+        self.kodi = "http://" + str(ip) + ":" + str(port) + "/jsonrpc"
         LOG.info('Kodi at %r' % self.kodi)
     
 
