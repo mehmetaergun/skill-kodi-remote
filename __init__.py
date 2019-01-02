@@ -20,6 +20,7 @@ def kodi_post(kodi_url, jsonrpc_payload, json_header={'content-type': 'applicati
     try:
         LOG.debug('Sending request to Kodi: %r' % jsonrpc_payload)
         response = requests.post(kodi_url, data=json.dumps(jsonrpc_payload), headers=json_header)
+        response.raise_for_status()
         LOG.debug('Kodi responded with: %r' % response.text)
         return response
     except Exception as e:
