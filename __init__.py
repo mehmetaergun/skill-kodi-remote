@@ -73,7 +73,7 @@ class SkillKodiRemote(MycroftSkill):
         LOG.info('Stopped Kodi')
 
 
-    #@intent_handler(IntentBuilder("").optional("Set").require("Volume").require("VolumeLevels").require("Kodi"))
+    @intent_handler(IntentBuilder("").require("Volume").require("VolumeLevels").require("Kodi"))
     def handle_volume_kodi_intent(self, message):
         LOG.info('Setting Kodi volume level')
         level = message.data.get('VolumeLevels', None)
