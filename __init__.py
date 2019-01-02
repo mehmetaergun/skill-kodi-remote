@@ -38,6 +38,7 @@ class SkillKodiRemote(MycroftSkill):
     
     def initialize(self):
         self.settings.set_changed_callback(self.on_websettings_changed)
+        self.on_websettings_changed()
     
     
     def on_websettings_changed(self):
