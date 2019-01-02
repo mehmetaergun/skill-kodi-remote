@@ -34,9 +34,6 @@ class SkillKodiRemote(MycroftSkill):
         super(SkillKodiRemote, self).__init__(name="SkillKodiRemote")
         # Initialize working variables used within the skill.
         self.on_websettings_changed_count = 0
-        self.kodi = None
-        self.json_payload = ''
-        self.json_response = ''
         
     
     def initialize(self):
@@ -44,8 +41,7 @@ class SkillKodiRemote(MycroftSkill):
     
     
     def on_websettings_changed(self):
-        self.on_websettings_changed_count += 1
-        LOG.info('on_websettings_changed was activated for the ' + str(self.on_websettings_changed_count) + 'th time')
+        LOG.info('on_websettings_changed was activated')
         # get the new settings
         ip, port = self.settings.get('ip'), self.settings.get('port')
         # construct kodi's url
