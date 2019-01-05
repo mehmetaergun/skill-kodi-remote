@@ -2,3 +2,8 @@ pause
 freeze
 resume
 continue
+unpause
+wait
+suspend playback
+hold
+
